@@ -4,7 +4,6 @@ import com.example.springbootdev.domain.Article;
 import com.example.springbootdev.dto.ArticleListViewResponse;
 import com.example.springbootdev.dto.ArticleViewResponse;
 import com.example.springbootdev.service.BlogService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,8 +41,11 @@ public class BlogViewController {
     //(required = false) == 없을수도있음
     public String newArticle(@RequestParam(required = false)Long id,Model model){
         if (id == null) {
-
-
+            model.addAttribute("article", new ArticleViewResponse());
+        }else {
+            Article article = blogService.findById(id);
+            model.addAttribute("article", new ArticleViewResponse(article));
         }
+        return "newArticle";
     }
 }
